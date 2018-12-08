@@ -70,27 +70,22 @@ const authUser = (data) => {
     });
     trackData.save((err) => {
         if (err) {
-            return {
-                code: 404,
-                value: err.message.toUpperCase()
-            }
-        }
-        else {
-            if (!users[data.user]) {
-                return {
-                    code: 404,
-                    value: `UNKNOWN_USER ${data.user}`
-                }
-            }
-            else {
-                // Add Password Checks here.
-                return {
-                    code: 200,
-                    value: `PASSWORD_OK ${data.user}@${authority} \nFOO baz`
-                }
-            }
+            console.log(err.message);
         }
     });
+    if (!users[data.user]) {
+        return {
+            code: 404,
+            value: `UNKNOWN_USER ${data.user}`
+        }
+    }
+    else {
+        // Add Password Checks here.
+        return {
+            code: 200,
+            value: `PASSWORD_OK ${data.user}@${authority} \nFOO baz`
+        }
+    }
 }
 
 // Functions End
