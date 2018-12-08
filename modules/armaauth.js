@@ -6,7 +6,7 @@ const auth = (req, res) => {
     let data = req.query;
 
     const getPrefix = () => ("%u:aaauth:");
-    const getSuffix = () => (authority);
+    const getSuffix = () => (":"+authority);
 
     const getMethods = () => {
         res.send('METHODS md5, bmd5');
