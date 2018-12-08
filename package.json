@@ -2,9 +2,9 @@
   "name": "armaauth",
   "version": "0.1.0",
   "description": "Armagetron Authorization Server ported from PHP to NodeJS.",
-  "main": "app.js",
+  "main": "system/server.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node system/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +16,8 @@
   "author": "Aaditya Chakravarty",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "md5": "^2.2.1",
+    "mongoose": "^5.3.15"
   }
 }

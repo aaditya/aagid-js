@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
 
-const port = process.env.PORT || process.argv[2] || 3000;
+// Models
+
+const userModel = require('./models/users.js');
+const trackModel = require('./models/track.js');
 
 // Manual Users for now.
 
@@ -58,19 +61,36 @@ const getParams = (data) => {
 }
 
 const authUser = (data) => {
-    if (!users[data.user]) {
-        return {
-            code: 404,
-            value: `UNKNOWN_USER ${data.user}`
+    let trackData = new trackModel({
+        query: data.query,
+        method: data.method,
+        user: data.user,
+        salt: data.salt,
+        hash: data.hash
+    });
+    trackData.save((err) => {
+        if (err) {
+            return {
+                code: 404,
+                value: err.message.toUpperCase()
+            }
         }
-    }
-    else {
-        // Add Password Checks here.
-        return {
-            code: 200,
-            value: `PASSWORD_OK ${data.user}@${authority} \nFOO baz`
+        else {
+            if (!users[data.user]) {
+                return {
+                    code: 404,
+                    value: `UNKNOWN_USER ${data.user}`
+                }
+            }
+            else {
+                // Add Password Checks here.
+                return {
+                    code: 200,
+                    value: `PASSWORD_OK ${data.user}@${authority} \nFOO baz`
+                }
+            }
         }
-    }
+    });
 }
 
 // Functions End
@@ -93,10 +113,6 @@ app.get('/armaauth/0.1', (req, res) => {
     else {
         res.status(404).send('UNKNOWN_QUERY');
     }
-});
-
-app.listen(port, () => {
-    console.log('Server running on port ' + port + '.');
 });
 
 module.exports = app;
