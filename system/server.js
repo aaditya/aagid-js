@@ -7,6 +7,8 @@ const app = require('../app.js');
 const server = http.createServer(app);
 const port = process.env.PORT || config.port;
 
+global.authority;
+
 mongoose.connect(config.db, { useNewUrlParser: true }, (err) => {
     if (err) {
         console.log(err.message);
