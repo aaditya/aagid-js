@@ -13,22 +13,20 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Query</th>
-                <th scope="col">Method</th>
                 <th scope="col">User</th>
-                <th scope="col">Salt</th>
-                <th scope="col">Hash</th>
+                <th scope="col">Supplied Salt</th>
+                <th scope="col">Supplied Hash</th> 
+                <th scope="col">Expected Hash</th>
             </tr>
         </thead>
         <tbody>
             <% data.forEach(function (e, i) { %>
             <tr>
                 <th scope="row"><%= i+1 %></th>
-                <td><%= e.query %></td>
-                <td><%= e.method %></td>
                 <td><%= e.user %></td>
-                <td><%= e.salt %></td>
-                <td><%= e.hash %></td>
+                <td><%= e.supplied_salt %></td>
+                <td><%= e.supplied_hash %></td>
+                <td><%= e.expected_hash %></td>
             </tr>
             <% }); %>
         </tbody>

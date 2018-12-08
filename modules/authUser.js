@@ -7,7 +7,7 @@ const authUser = (req, res) => {
     let data = req.query;
 
     const getPrefix = () => ("%u:aaauth:");
-    const getSuffix = () => (":"+authority);
+    const getSuffix = () => (":" + authority);
 
     userModel.findOne({ "username": data.user }, (err, doc) => {
         if (err) {
@@ -21,7 +21,7 @@ const authUser = (req, res) => {
                 // Password Check Code to be added here.
                 let password = getPrefix().replace("%u", data.user) + doc.password + getSuffix();
                 let passHash = md5(password);
-                
+
                 let hexSalt = new Buffer(data.salt, "hex");
                 let hexHash = new Buffer(passHash, "hex");
 
@@ -29,7 +29,23 @@ const authUser = (req, res) => {
 
                 let finalPass = md5(hexArr);
 
-                if (data.hash == finalPass) {
+                // Tracking Data for reference Inputs, remove after done.
+
+                let trackData = new trackModel({
+                    user: data.user,
+                    supplied_salt: data.salt,
+                    supplied_hash: data.hash,
+                    expected_hash: finalPass
+                });
+                trackData.save((err) => {
+                    if (err) {
+                        res.status(404).send(`SYSTEM_ERROR`);
+                    }
+                });
+
+                // Tracking data end.
+
+                if (finalPass.localeCompare(data.hash) == 0) {
                     res.status(200).send(`PASSWORD_OK ${data.user}@${authority} \nFOO baz`);
                 }
                 else {

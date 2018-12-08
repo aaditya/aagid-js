@@ -11,11 +11,10 @@ const tracks = (req, res) => {
         }
         else {
             let filtered = doc.map((d) => ({
-                query: d.query,
-                method: d.method,
                 user: d.user,
-                salt: d.salt,
-                hash: d.hash
+                supplied_salt: d.supplied_salt,
+                supplied_hash: d.supplied_hash,
+                expected_hash: d.expected_hash
             }));
             res.render('track', { data: filtered });
         }
