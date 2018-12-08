@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || process.argv[2] || 3000;
 
 // Header Setup for Content Type
 
@@ -40,8 +40,12 @@ const getParams = (data) => {
     }
 }
 
-const authUser = (data) => {
-    console.log(data);
+const authUser = ({ query }) => {
+    console.log(query);
+    return {
+        code: 200,
+        value: 'PASSWORD_FAIL'
+    }
 }
 
 // Functions End
@@ -65,6 +69,8 @@ app.get('/armaauth/0.1', (req, res) => {
     }
 });
 
-app.listen(port);
+app.listen(port, () => {
+    console.log('Server running on port '+port+'.');
+});
 
 module.exports = app;
