@@ -14,7 +14,7 @@ const auth = (req, res) => {
 
     const getParams = () => {
         if (data.method == 'md5') {
-            res.send(`PREFIX  ${getPrefix()}\nSUFFIX :${getSuffix()}`);
+            res.send(`PREFIX ${getPrefix()}\nSUFFIX ${getSuffix()}`);
         }
         else if (data.method == 'bmd5') {
             res.send('');
