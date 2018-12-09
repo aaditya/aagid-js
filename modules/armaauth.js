@@ -38,21 +38,26 @@ const auth = (req, res) => {
                     res.status(404).send(`UNKNOWN_USER ${req.query.user}`);
                 }
                 else {
-                    let password = getPrefix().replace("%u", req.query.user) + doc.password + getSuffix();
-                    let passHash = md5(password);
-
-                    let hexSalt = new Buffer(req.query.salt || "", "hex");
-                    let hexHash = new Buffer(passHash || "", "hex");
-
-                    let hexArr = Buffer.concat([hexHash, hexSalt]);
-
-                    let finalPass = md5(hexArr);
-
-                    if (finalPass.localeCompare(req.query.hash) == 0) {
-                        res.status(200).send(`PASSWORD_OK ${req.query.user}@${authority}\nFOO baz`);
+                    if ((doc.username != req.query.user) && (getPrefix().indexOf('%u') != -1) || (getSuffix().indexOf('%u') != -1)) {
+                        res.status(404).send(`UNKNWOWN_USER ${req.query.user} Do not use %u in pre/suffix if your user database is making case-insensitive lookups.`);
                     }
                     else {
-                        res.status(401).send('PASSWORD_FAIL');
+                        let password = getPrefix().replace("%u", req.query.user) + doc.password + getSuffix();
+                        let passHash = md5(password);
+
+                        let hexSalt = new Buffer(req.query.salt || "", "hex");
+                        let hexHash = new Buffer(passHash || "", "hex");
+
+                        let hexArr = Buffer.concat([hexHash, hexSalt]);
+
+                        let finalPass = md5(hexArr);
+
+                        if (finalPass.localeCompare(req.query.hash) == 0) {
+                            res.status(200).send(`PASSWORD_OK ${req.query.user}@${authority}\nFOO baz`);
+                        }
+                        else {
+                            res.status(401).send('PASSWORD_FAIL');
+                        }
                     }
                 }
             }
