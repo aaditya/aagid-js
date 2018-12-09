@@ -45,8 +45,8 @@ const auth = (req, res) => {
                         let password = getPrefix().replace("%u", req.query.user) + doc.password + getSuffix();
                         let passHash = md5(password);
 
-                        let hexSalt = new Buffer(req.query.salt || "", "hex");
-                        let hexHash = new Buffer(passHash || "", "hex");
+                        let hexSalt = Buffer.from(req.query.salt || '', 'hex');
+                        let hexHash = Buffer.from(passHash || '', 'hex');
 
                         let hexArr = Buffer.concat([hexHash, hexSalt]);
 
