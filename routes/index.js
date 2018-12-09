@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/track', require('../modules/getTracks'));
+// router.get('/track', require('../modules/getTracks'));
 router.post('/register', require('../modules/addUser'))
 
 router.use((req, res, next) => {
