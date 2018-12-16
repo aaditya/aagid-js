@@ -53,7 +53,7 @@ const auth = (req, res) => {
                         let finalPass = md5(hexArr);
 
                         if (finalPass.localeCompare(req.query.hash) == 0) {
-                            res.status(200).send(`PASSWORD_OK ${req.query.user}@forums\nFOO baz`);
+                            res.status(200).send(`PASSWORD_OK ${req.query.user}@${authority}\nFOO baz`);
                         }
                         else {
                             res.status(401).send('PASSWORD_FAIL');
