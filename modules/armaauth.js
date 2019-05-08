@@ -9,15 +9,12 @@ const auth = (req, res) => {
     const getSuffix = () => (":" + authority);
 
     const getMethods = () => {
-        res.send('METHODS md5, bmd5');
+        res.send('METHODS md5');
     }
 
     const getParams = () => {
         if (req.query.method == 'md5') {
             res.send(`PREFIX ${getPrefix()}\nSUFFIX ${getSuffix()}`);
-        }
-        else if (req.query.method == 'bmd5') {
-            res.send('');
         }
         else {
             res.status(404).send(`UNKNOWN_METHOD`);
